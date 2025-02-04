@@ -9,7 +9,7 @@ const costsSchema = new database.mongoose.Schema({
 
 const Costs = database.mongoose.model("costs", costsSchema);
 
-async function add_cost(description, category, userid, sum, create_date) {
+async function addCost(description, category, userid, sum, create_date) {
     const result = {
         data:null, err:null
     }
@@ -28,7 +28,7 @@ async function add_cost(description, category, userid, sum, create_date) {
 //}
 //exports.createCollection = createCollection;
 
-async function get_costs_by_userid(userid){
+async function getCostsByUserId(userid){
     const result = {
         data:null, err:null
     }
@@ -43,5 +43,5 @@ async function get_costs_by_userid(userid){
 
 module.exports = {
     Costs,
-    add_cost,
-    get_costs_by_userid};
+    addCost,
+    getCostsByUserId};

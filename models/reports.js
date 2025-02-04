@@ -20,7 +20,7 @@ const reportSchema = new mongoose.Schema({
 
 const Report = mongoose.model('Report', reportSchema);
 
-async function get_monthly_report(userId, year, month) {
+async function getMonthlyReport(userId, year, month) {
     const result = {
         data: null,
         err: null
@@ -73,5 +73,5 @@ async function get_monthly_report(userId, year, month) {
 
 
 module.exports = {
-     get_monthly_report
+    getMonthlyReport
 };

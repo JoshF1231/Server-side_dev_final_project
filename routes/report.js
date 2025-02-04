@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {get_monthly_report} = require('../models/reports');
+const {getMonthlyReport} = require('../models/reports');
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
@@ -10,7 +10,7 @@ router.get('/', async function(req, res, next) {
         if (!userid || !year || !month) {
             return res.status(400).json({ error: "Missing required parameters" });
         }
-        const result = await get_monthly_report(userid, year, month);
+        const result = await getMonthlyReport(userid, year, month);
         if (result.err) {
             return res.status(400).json({ error: result.err.message });
         }
