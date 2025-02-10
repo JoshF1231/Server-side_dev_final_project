@@ -11,6 +11,7 @@ const reportSchema = new mongoose.Schema({
         _id: false,
         category: String,
         items: [{
+            _id: false,
             sum: Number,
             description: String,
             day: Number
@@ -19,6 +20,7 @@ const reportSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const Report = mongoose.model('Report', reportSchema);
+const categories = ["food", "health", "housing", "sport", "education"];
 
 async function getMonthlyReport(userId, year, month) {
     const result = {
@@ -34,10 +36,10 @@ async function getMonthlyReport(userId, year, month) {
             result.data = report;
             return result;
         }
-
         // If not, generate a new report
         const startDate = new Date(year, month-1 , 1);
-        const endDate = new Date(year, month, 0);
+        const endDate = new Date(year, month, 1);
+        endDate.setMilliseconds(-1);
 
         const cost = await Costs.find({
             userid: userId,
@@ -45,16 +47,17 @@ async function getMonthlyReport(userId, year, month) {
         });
 
         const categorizedCosts = {};
-
+        categories.forEach((category) => {
+            categorizedCosts[category] = [];
+        })
         cost.forEach(cost => {
-            if (!categorizedCosts[cost.category]) {
-                categorizedCosts[cost.category] = [];
+            if (categorizedCosts[cost.category]) {
+                categorizedCosts[cost.category].push({
+                    sum: cost.sum,
+                    description: cost.description,
+                    day: cost.create_date.getDate()
+                });
             }
-            categorizedCosts[cost.category].push({
-                sum: cost.sum,
-                description: cost.description,
-                day: cost.create_date.getDate()
-            });
         });
         report = new Report({
             userid: userId,
@@ -67,7 +70,6 @@ async function getMonthlyReport(userId, year, month) {
     } catch (err) {
         result.err = err;
     }
-
     return result;
 }
 
