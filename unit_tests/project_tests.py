@@ -9,7 +9,7 @@ def test_about_page():
     response = requests.get(f"{BASE_URL}/about")
     data = response.json()
     assert any(person["first_name"] == "Raz" for person in data)
-    assert any(person["last_name"] == "Hagany" for person in data)
+    assert any(person["last_name"] == "Hagani" for person in data)
     assert any(person["first_name"] == "Josh" for person in data)
     assert any(person["last_name"] == "Fiquette" for person in data)
 
