@@ -16,11 +16,10 @@ router.post('/', async function(req, res, next) {
             res.status(500).json({error: newcost.err.message});
             return;
         }
-        res.json(newcost.data);
+        res.status(201).json(newcost.data);
     }
     catch(err) {
-        //console.log(err);
-        res.json({error: err});
+        res.status(500).json({error: err});
     }
 });
 

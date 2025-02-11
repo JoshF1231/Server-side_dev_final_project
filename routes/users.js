@@ -8,13 +8,12 @@ router.get('/:userid', async function(req, res, next) {
     const userid = req.params.userid;
     const costs = await getCostsByUserId(userid);
     if(costs.err) {
-      return res.status(500).json({error: costs.err.message});
+      return res.status(500).json({error: "Invalid userid"});
     }
-
-    return res.json(costs.data);
+    return res.status(200).json(costs.data);
 
   } catch(err) {
-    return res.json({error: err.message});
+    return res.status(500).json({error: err.message});
   }
 });
 
