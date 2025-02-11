@@ -1,7 +1,7 @@
 const Developers = [
     {
         "first_name" : "Raz",
-        "last_name" : "Hagany"
+        "last_name" : "Hagani"
     },
     {
         "first_name" : "Josh",
