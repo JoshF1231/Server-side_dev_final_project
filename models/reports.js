@@ -1,5 +1,3 @@
-const database = require("../database");
-const costs = require("../models/costs");
 const mongoose = require('mongoose');
 const {Costs} = require("./costs");
 const {getMonthlyReportException} = require("./exceptions");
@@ -56,7 +54,6 @@ async function getMonthlyReport(userId, year, month) {
     try {
         // Check if the report already exists
         let report  = await Report.findOne({ userid: userId, year, month });
-
         if (report) {
             result.data = report;
             return result;

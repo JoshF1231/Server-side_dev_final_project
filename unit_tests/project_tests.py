@@ -38,7 +38,7 @@ def test_create_cost_item_missing_fields():
     response = requests.post(f"{BASE_URL}/add", json=payload)
     assert response.status_code == 400
     assert "error" in response.json()
-    assert response.json()["error"] == "all fields are required"
+    assert response.json()["error"] == "All fields are required"
 
 
 def test_create_report_missing_fields():

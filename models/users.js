@@ -1,5 +1,4 @@
 const database = require("../database");
-const {router} = require("express/lib/application");
 const {getUserException} = require("./exceptions");
 
 /**

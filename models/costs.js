@@ -1,5 +1,4 @@
 const database = require("../database");
-const app = require("../app");
 const { addCostException, getCostsException} = require('./exceptions');
 const {getUserById} = require("./users");
 const {createUserById} = require("./users");

@@ -1,8 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
-var express = require('express');
-var router = express.Router();
 const { getMonthlyReport } = require('../models/reports');
 const {getMonthlyReportException} = require("../models/exceptions");
 
@@ -22,7 +19,7 @@ const {getMonthlyReportException} = require("../models/exceptions");
  * @returns {Object} 500 - Internal server error
  */
 
-router.get('/', async function(req, res, next) {
+router.get('/', async function(req, res) {
     try {
         const { userid, year, month } = req.query;
 
