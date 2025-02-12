@@ -1,6 +1,5 @@
 const database = require("../database");
 const {router} = require("express/lib/application");
-const {getUserException} = require("./exceptions");
 
 /**
  * Schema for user records in the database.
@@ -19,7 +18,7 @@ async function getUserById(userid){
         result.data = await Users.findOne({id: userid});
     }
     catch(err){
-        result.err = getUserException('Failed to retrieve user', err.message, { userid });
+        result.err = err;
     }
     return result;
 
