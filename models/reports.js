@@ -89,12 +89,7 @@ async function getMonthlyReport(userId, year, month) {
     return result;
 }
 
-function removeAllReports(){
-    Report.deleteMany({})
-}
-
 
 module.exports = {
     getMonthlyReport,
-    removeAllReports,
 };

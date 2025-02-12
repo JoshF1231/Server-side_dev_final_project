@@ -2,8 +2,6 @@ var express = require('express');
 const {getCostsByUserId, removeAllCosts} = require("../models/costs");
 const {getAllDevelopers} = require("../models/developers");
 const {getDevelopersException} = require("../models/exceptions");
-const {removeAllReports} = require("../models/reports");
-const {removeAllUsers} = require("../models/users");
 var router = express.Router();
 
 /**
@@ -16,9 +14,6 @@ var router = express.Router();
 
 router.get('/', async function(req, res, next) {
     try {
-        removeAllCosts();
-        removeAllReports();
-        removeAllUsers();
         const developers = getAllDevelopers();
         if(developers.err) {
             return res.status(500).json({ error: getDevelopersException('Failed to retrieve developers', developers.err.message) });

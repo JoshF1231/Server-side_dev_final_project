@@ -75,12 +75,8 @@ async function getCostsByUserId(userid){
     return result;
 }
 
-function removeAllCosts(){
-    Costs.deleteMany({})
-}
 
 module.exports = {
     Costs,
     addCost,
-    getCostsByUserId,
-    removeAllCosts};
+    getCostsByUserId,};
