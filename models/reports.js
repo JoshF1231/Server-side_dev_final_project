@@ -2,6 +2,7 @@ const database = require("../database");
 const costs = require("../models/costs");
 const mongoose = require('mongoose');
 const {Costs} = require("./costs");
+const {getMonthlyReportException} = require("./exceptions");
 
 /**
  * Schema for monthly expense reports.
@@ -92,7 +93,7 @@ async function getMonthlyReport(userId, year, month) {
         await report.save();
         result.data = report;
     } catch (err) {
-        result.err = err;
+        result.err = getMonthlyReportException('Failed to retrieve monthly report', err.message, { userId, year, month });
     }
     return result;
 }

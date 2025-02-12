@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const {addCost} = require('../models/costs');
+const {addCostException} = require("../models/exceptions");
 
 
 
@@ -24,19 +25,19 @@ router.post('/', async function(req, res, next) {
     try {
         const cost_item = req.body;
         if(!cost_item.description || !cost_item.category || !cost_item.userid || !cost_item.sum) {
-            return res.status(400).json({error: "all fields are required"});
+            return res.status(400).json({ error: "All fields are required" });
         }
         const firstName = cost_item.first_name || "John";
         const lastName = cost_item.last_name || "Doe";
         const newcost = await addCost(cost_item.description, cost_item.category , cost_item.userid , cost_item.sum, cost_item.create_date, firstName,lastName);
         if(newcost.err) {
-            res.status(500).json({error: newcost.err.message});
+            return res.status(500).json({ error: addCostException('Failed to add cost', newcost.err.message, cost_item) });
             return;
         }
         res.status(201).json(newcost.data);
     }
     catch(err) {
-        res.status(500).json({error: err});
+        return res.status(500).json({ error: addCostException('Unexpected server error', err.message, req.body) });
     }
 });
 

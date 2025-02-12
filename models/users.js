@@ -1,5 +1,6 @@
 const database = require("../database");
 const {router} = require("express/lib/application");
+const {getUserException} = require("./exceptions");
 
 /**
  * Schema for user records in the database.
@@ -15,14 +16,13 @@ async function getUserById(userid){
         err: null
     };
     try{
-        result.data = await Users.findOne({id: userid}).exec();
-        if (!result.data){
-            result.err = new Error("User not found");
-        }
+        result.data = await Users.findOne({id: userid});
     }
     catch(err){
-
+        result.err = getUserException('Failed to retrieve user', err.message, { userid });
     }
+    return result;
+
 }
 
 /**
@@ -32,5 +32,7 @@ async function getUserById(userid){
 const Users = database.mongoose.model("users", userSchema);
 
 
-module.exports = Users;
+module.exports = {
+    Users,
+getUserById,};
 

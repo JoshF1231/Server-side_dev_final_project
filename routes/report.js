@@ -4,6 +4,7 @@ var router = express.Router();
 var express = require('express');
 var router = express.Router();
 const { getMonthlyReport } = require('../models/reports');
+const {getMonthlyReportException} = require("../models/exceptions");
 
 /**
  * GET route to retrieve the monthly expense report for a user.
@@ -30,12 +31,13 @@ router.get('/', async function(req, res, next) {
         }
         const result = await getMonthlyReport(userid, year, month);
         if (result.err) {
-            return res.status(400).json({ error: result.err.message });
+            return res.status(400).json({ error: getMonthlyReportException('Failed to retrieve report', result.err.message, req.query) });
         }
         res.json(result.data);
     }
     catch (err) {
-        return res.status(500).json({error: err.message});}
+        return res.status(500).json({ error: getMonthlyReportException('Unexpected server error', err.message, req.query) });
+    }
 });
 
 module.exports = router;

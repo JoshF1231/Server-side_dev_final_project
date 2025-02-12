@@ -1,5 +1,7 @@
 const database = require("../database");
 const app = require("../app");
+const { addCostException, getCostsException} = require('./exceptions');
+
 
 /**
  * Schema for cost entries in the database
@@ -37,7 +39,9 @@ async function addCost(description, category, userid, sum, createDate, firstName
         result.data = await Costs.create({description: description, category: category, userid: userid, sum: sum, create_date:createDate,first_name: firstName, last_name: lastName });
     }
     catch(err) {
-        result.err = err;
+        result.err = addCostException('Failed to add cost', err.message, {
+            description, category, userid, sum, createDate
+        });
     }
     return result;
 }
@@ -55,7 +59,7 @@ async function getCostsByUserId(userid){
     try{
         result.data = await Costs.find({ userid: userid });
     } catch(err) {
-        result.err = err;
+        result.err = getCostsException('Failed to get cost', err.message, { userid });
     }
     return result;
 }
