@@ -26,7 +26,7 @@ router.get('/', async function(req, res) {
         if (!id || !year || !month) {
             return res.status(400).json({ error: "Missing required parameters" });
         }
-        const result = await getMonthlyReport(userid, year, month);
+        const result = await getMonthlyReport(id, year, month);
         if (result.err) {
             return res.status(400).json({ error: getMonthlyReportException('Failed to retrieve report', result.err.message, req.query) });
         }
