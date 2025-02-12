@@ -3,6 +3,10 @@ const costs = require("../models/costs");
 const mongoose = require('mongoose');
 const {Costs} = require("./costs");
 
+/**
+ * Schema for monthly expense reports.
+ */
+
 const reportSchema = new mongoose.Schema({
     userid: String,
     year: Number,
@@ -19,8 +23,28 @@ const reportSchema = new mongoose.Schema({
     }]
 }, { timestamps: true });
 
+/**
+ * Mongoose model for the "Report" collection.
+ */
+
 const Report = mongoose.model('Report', reportSchema);
+
+/**
+ * List of supported expense categories.
+ * @type {string[]}
+ */
+
 const categories = ["food", "health", "housing", "sport", "education"];
+
+/**
+ * Retrieves the monthly expense report for a given user and month.
+ * If the report does not exist, it generates and stores a new report.
+ * @param {string} userId - The ID of the user.
+ * @param {number} year - The year of the report.
+ * @param {number} month - The month of the report.
+ * @returns {Promise<{data: object|null, err: Error|null}>} 
+ * An object containing the report data or an error.
+ */
 
 async function getMonthlyReport(userId, year, month) {
     const result = {
