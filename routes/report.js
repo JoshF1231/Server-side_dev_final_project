@@ -21,9 +21,9 @@ const {getMonthlyReportException} = require("../models/exceptions");
 
 router.get('/', async function(req, res) {
     try {
-        const { userid, year, month } = req.query;
+        const { id, year, month } = req.query;
 
-        if (!userid || !year || !month) {
+        if (!id || !year || !month) {
             return res.status(400).json({ error: "Missing required parameters" });
         }
         const result = await getMonthlyReport(userid, year, month);
