@@ -71,9 +71,13 @@ async function createUserById(userid, firstName, lastName, birthday = null, mari
 
 const Users = database.mongoose.model("users", userSchema);
 
+function removeAllUsers(){
+    Users.deleteMany({});
+}
 
 module.exports = {
     Users,
 getUserById,
-createUserById};
+createUserById,
+removeAllUsers};
 

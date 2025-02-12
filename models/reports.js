@@ -33,7 +33,7 @@ const Report = mongoose.model('Report', reportSchema);
  * @type {string[]}
  */
 
-const categories = ["food", "health", "housing", "sport", "education"];
+const Categories = ["food", "health", "housing", "sport", "education"];
 
 /**
  * Retrieves the monthly expense report for a given user and month.
@@ -63,7 +63,7 @@ async function getMonthlyReport(userId, year, month) {
         });
 
         const categorizedCosts = {};
-        categories.forEach((category) => {
+        Categories.forEach((category) => {
             categorizedCosts[category] = [];
         })
         cost.forEach(cost => {
@@ -89,7 +89,12 @@ async function getMonthlyReport(userId, year, month) {
     return result;
 }
 
+function removeAllReports(){
+    Report.deleteMany({})
+}
+
 
 module.exports = {
-    getMonthlyReport
+    getMonthlyReport,
+    removeAllReports,
 };
