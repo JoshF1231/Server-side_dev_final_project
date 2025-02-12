@@ -3,7 +3,14 @@ const {getCostsByUserId} = require("../models/costs");
 const {getAllDevelopers} = require("../models/developers");
 var router = express.Router();
 
-/* GET users listing. */
+/**
+ * GET route to retrieve the list of developers.
+ * @route GET /
+ * @group Developers - Operations related to developers
+ * @returns {Array<Object>} 200 - A list of developers
+ * @returns {Object} 500 - Internal server error
+ */
+
 router.get('/', async function(req, res, next) {
     try {
         const developers = getAllDevelopers();
