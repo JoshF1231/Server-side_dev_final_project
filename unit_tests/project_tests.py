@@ -61,4 +61,19 @@ def test_create_report_success():
     assert response.json()["month"] == 2
     assert len(response.json()["costs"])>0
 
-#test user page
+def test_get_user_success():
+    response = requests.get(f"{BASE_URL}/users/123")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["id"] == "123"
+    assert data["first_name"] == "raz"
+    assert data["last_name"] == "hagani"
+    assert isinstance(data["total"], (int, float))
+    assert data["total"] >= 0  # לוודא שהתוצאה אינה שלילית
+
+def test_get_user_not_found():
+    response = requests.get(f"{BASE_URL}/users/999999")  
+    assert response.status_code == 404
+    data = response.json()
+    assert "error" in data
+    assert data["error"] == "User not found"
