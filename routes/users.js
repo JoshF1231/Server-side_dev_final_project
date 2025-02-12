@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getCostsByUserId } = require('../models/costs');
+const {getUserById} = require("../models/users");
 
 /**
  * GET route to retrieve all costs for a specific user.
@@ -18,12 +19,21 @@ const { getCostsByUserId } = require('../models/costs');
 router.get('/:userid', async function(req, res, next) {
   try {
     const userid = req.params.userid;
+    const user = await getUserById(userid);
+    if (!user){
+      return res.status(404).send({error: "User not found"});
+    }
     const costs = await getCostsByUserId(userid);
     if(costs.err) {
       return res.status(500).json({error: "Invalid userid"});
     }
-    return res.status(200).json(costs.data);
-
+    const response = {
+      id : user.id,
+      first_name : user.first_name,
+      last_name : user.last_name,
+      costs : costs.data,
+    };
+    return res.status(200).json(response);
   } catch(err) {
     return res.status(500).json({error: err.message});
   }
