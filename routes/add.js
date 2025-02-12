@@ -26,7 +26,9 @@ router.post('/', async function(req, res, next) {
         if(!cost_item.description || !cost_item.category || !cost_item.userid || !cost_item.sum) {
             return res.status(400).json({error: "all fields are required"});
         }
-        const newcost = await addCost(cost_item.description, cost_item.category , cost_item.userid , cost_item.sum, cost_item.create_date);
+        const firstName = cost_item.first_name || "John";
+        const lastName = cost_item.last_name || "Doe";
+        const newcost = await addCost(cost_item.description, cost_item.category , cost_item.userid , cost_item.sum, cost_item.create_date, firstName,lastName);
         if(newcost.err) {
             res.status(500).json({error: newcost.err.message});
             return;

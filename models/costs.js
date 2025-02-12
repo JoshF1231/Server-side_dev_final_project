@@ -22,17 +22,19 @@ const Costs = database.mongoose.model("costs", costsSchema);
  * @param {string} category - Category of the expense
  * @param {string} userid - ID of the user associated with the expense
  * @param {number} sum - Amount of the expense
- * @param {Date} create_date - Date of creation (default is the current date)
+ * @param {Date} createDate - Date of creation (default is the current date)
+ * @param {string} firstName - First Name of the User (default is "John")
+ * @param {string} lastName - Last Name of the User (default is "Doe")
  * @returns {Promise<{data: object|null, err: Error|null}>} - Object containing the new cost entry or an error
  */
 
-async function addCost(description, category, userid, sum, create_date) {
+async function addCost(description, category, userid, sum, createDate, firstName, lastName) {
     const result = {
         data:null, err:null
     }
 
     try{
-        result.data = await Costs.create({description: description, category: category, userid: userid, sum: sum, create_date:create_date});
+        result.data = await Costs.create({description: description, category: category, userid: userid, sum: sum, create_date:createDate,first_name: firstName, last_name: lastName });
     }
     catch(err) {
         result.err = err;
