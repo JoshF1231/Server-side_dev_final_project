@@ -1,6 +1,8 @@
 const database = require("../database");
 const app = require("../app");
 const { addCostException, getCostsException} = require('./exceptions');
+const {getUserById} = require("./users");
+const {createUserById} = require("./users");
 
 
 /**
@@ -30,13 +32,23 @@ const Costs = database.mongoose.model("costs", costsSchema);
  * @returns {Promise<{data: object|null, err: Error|null}>} - Object containing the new cost entry or an error
  */
 
-async function addCost(description, category, userid, sum, createDate, firstName, lastName) {
+async function addCost(description, category, userid, sum, createDate, firstName = "John", lastName = "Doe") {
     const result = {
         data:null, err:null
     }
 
     try{
-        result.data = await Costs.create({description: description, category: category, userid: userid, sum: sum, create_date:createDate,first_name: firstName, last_name: lastName });
+        let userResult = await getUserById(userid);
+        if (userResult.err){
+            throw new Error(userResult.err);
+        }
+        if (!userResult.data) {
+            const newUserResult = await createUserById(userid, firstName, lastName);
+            if (newUserResult.err) {
+                throw new Error("Failed to create user: " + newUserResult.err.message);
+            }
+        }
+        result.data = await Costs.create({description: description, category: category, userid: userid, sum: sum, create_date:createDate});
     }
     catch(err) {
         result.err = addCostException('Failed to add cost', err.message, {

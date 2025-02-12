@@ -21,17 +21,22 @@ router.get('/:userid', async function(req, res, next) {
   try {
     const userid = req.params.userid;
     const user = await getUserById(userid);
-    if (!user){
+    if (!user.data){
       return res.status(404).json(getUserException("User not found", "No user data returned from database", { userid }));
     }
     const costs = await getCostsByUserId(userid);
     if(costs.err) {
       return res.status(500).json(getCostsException("Failed to retrieve costs", costs.err.message, { userid }));
     }
+    let totalCost = 0;
+    if (costs.data && Array.isArray(costs.data)) {
+      totalCost = costs.data.reduce((sum, cost) => sum + cost.sum, 0);
+    }
     const response = {
-      id : user.id,
-      first_name : user.first_name,
-      last_name : user.last_name,
+      id : user.data.id,
+      first_name : user.data.first_name,
+      last_name : user.data.last_name,
+      total : totalCost,
       costs : costs.data,
     };
     return res.status(200).json(response);
