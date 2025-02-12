@@ -52,12 +52,6 @@ async function getMonthlyReport(userId, year, month) {
     };
 
     try {
-        // Check if the report already exists
-        let report  = await Report.findOne({ userid: userId, year, month });
-        if (report) {
-            result.data = report;
-            return result;
-        }
         // If not, generate a new report
         const startDate = new Date(year, month-1 , 1);
         const endDate = new Date(year, month, 1);
